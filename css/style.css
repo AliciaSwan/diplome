@@ -1,0 +1,11 @@
+.main-slider .slide{
+    position: absolute;
+    opacity:0;
+}
+.main-slider .slider-item-active {
+    opacity: 1;
+    -webkit-transition: opacity .5s ease;
+    transition: opacity .5s ease; }
+.slider-dots{
+    z-index: 1002;
+}

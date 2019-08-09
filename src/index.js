@@ -3,7 +3,8 @@ window.addEventListener('DOMContentLoaded', function(){
 
     // import clubChoise from './src/modules/clubChoise';
     // import togglePopUp from './src/modules/togglePopUp';
-
+    // import slider from '/src/modules/slider';
+    // import addDots from './src/modules/addDots';
 
     const clubChoise = () => {
 
@@ -93,5 +94,100 @@ window.addEventListener('DOMContentLoaded', function(){
 
     };
     togglePopUp();
+
+
+    const addDots = () => {
+        const slide = document.querySelectorAll('.main-slider .slide'),
+            dots = document.querySelector('.slider-dots');
+    
+        slide.forEach(() => {
+            let li = document.createElement('li'),
+                dotButton = document.createElement('button');
+
+            li.className = "dot";
+            dotButton.className = "dotButton";
+            
+            dots.appendChild(li);
+            li.appendChild(dotButton);
+        });
+    };
+    addDots();
+
+    const slider = () => {
+        const slider = document.querySelector('.main-slider'),
+            slide = document.querySelectorAll('.main-slider .slide'),
+            li = document.querySelectorAll('.dot'),
+            dotButtons = document.querySelector('.slider-dots'),
+            buttons = document.querySelectorAll('.dotButton');
+        let currentSlide = 0,
+            interval;
+
+        const autoPlaySlide = () => {
+            slide[currentSlide].classList.remove('slider-item-active');
+            li[currentSlide].classList.remove('slick-active');
+            
+            currentSlide++;
+            if(currentSlide >= slide.length){
+                currentSlide = 0;
+            }
+            slide[currentSlide].classList.add('slider-item-active');
+            li[currentSlide].classList.add('slick-active');
+        };
+        const startSlide = (time = 5000) => {
+            interval = setInterval(autoPlaySlide, time);
+    
+        };
+        const stopSlide = () => {
+                clearInterval(interval);
+        };
+
+
+        dotButtons.addEventListener('click', (event) => {
+            event.preventDefault();
+    
+            let target = event.target;
+            console.log(buttons);
+            if(!target.matches('button')){
+                return;
+            }
+            slide[currentSlide].classList.remove('slider-item-active');
+            li[currentSlide].classList.remove('slick-active');
+    
+            if(target.matches('button') || target == "button"){
+                buttons.forEach((elem, index) => {
+                    if(elem === target){
+                        currentSlide = index;
+                    }
+                });
+            }
+    
+            if(currentSlide >= slide.length){
+                currentSlide = 0;
+            }
+            if(currentSlide < 0){
+                currentSlide = slide.length-1;
+            }
+            slide[currentSlide].classList.add('slider-item-active');
+            li[currentSlide].classList.add('slick-active');
+    
+        });
+    
+        dotButtons.addEventListener('mouseover', (event)=>{
+            if(event.target.matches('.dot')){
+                stopSlide();
+            }
+        });
+        dotButtons.addEventListener('mouseout', (event)=>{
+            if(event.target.matches('.dot')){
+                startSlide();
+            }
+        });
+
+        startSlide(5000);
+
+    };
+    slider();
+
+
 
 });
