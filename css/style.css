@@ -56,4 +56,9 @@
 .services-slider .slide{
     float:left;
 }
+#verify_checkbox{
+    color: red;
+    font-size: 1rem;
+    padding-top: 15px;
+}
 

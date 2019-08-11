@@ -31,7 +31,8 @@ window.addEventListener('DOMContentLoaded', function(){
             callBackBtn = document.querySelector('.callback-btn'),
             callbackForm = document.getElementById('callback_form'),
             fixedGiftBtn = document.querySelector('.fixed-gift'),
-            giftForm = document.getElementById('gift');
+            giftForm = document.getElementById('gift'),
+            thanks = document.getElementById('thanks');
 
         openPopup.addEventListener('click', () => {
             freeVisitForm.style.display = "block";
@@ -76,7 +77,7 @@ window.addEventListener('DOMContentLoaded', function(){
         
         giftForm.addEventListener('click', (event)=>{
             let target = event.target;
-            console.log(target);
+
             if(target.classList.contains('close_icon')){
                 giftForm.style.display ='none';
             }else if(target.classList.contains('close-btn')){
@@ -91,6 +92,14 @@ window.addEventListener('DOMContentLoaded', function(){
     
         });
 
+        thanks.addEventListener('click', (event) => {
+            let target = event.target;
+
+            if(target.classList.contains('close_icon')||
+            target.classList.contains('close-btn')){
+                thanks.style.display = 'none';
+            }
+        });
 
     };
     togglePopUp();
@@ -340,6 +349,188 @@ window.addEventListener('DOMContentLoaded', function(){
 
     };
     servicesSlider();
+
+
+    //---------------------------------------------
+
+    const formValidator = () => {
+        const textInput = document.querySelectorAll('input[type="text"]'),
+            phoneInput = document.querySelectorAll('input[type ="tel"]');
+    
+        textInput.forEach((item) => {
+            item.addEventListener('input', ()=>{
+                item.value = item.value.replace(/[^а-я ]/gi, '');
+            });
+        });
+            
+        const setCursorPosition = (pos, elem) => {
+            elem.focus();
+            if (elem.setSelectionRange) elem.setSelectionRange(pos, pos);
+            else if (elem.createTextRange) {
+                let range = elem.createTextRange();
+                range.collapse(true);
+                range.moveEnd("character", pos);
+                range.moveStart("character", pos);
+                range.select();
+            }
+        };
+        
+        const mask = function(event) {
+            let matrix = "+7 (___) ___ ____",
+                i = 0,
+                def = matrix.replace(/\D/g, ""),
+                val = this.value.replace(/\D/g, "");
+            if (def.length >= val.length) val = def;
+            this.value = matrix.replace(/./g, function(a) {
+                return /[_\d]/.test(a) && i < val.length ? val.charAt(i++) : i >= val.length ? "" : a;
+            });
+            if (event.type == "blur") {
+                if (this.value.length == 2) this.value = "";
+                } else setCursorPosition(this.value.length, this);
+        };
+
+        phoneInput.forEach((item) => {
+            item.addEventListener("input", mask, false);
+            item.addEventListener("focus", mask, false);
+            item.addEventListener("blur", mask, false);
+        });
+    };
+    formValidator();
+    //export default formValidator;
+
+    // ----------------------------------------
+
+
+   
+    //spinner();
+
+    const sendForm = () => {
+        const errorMessage = "Что-то пошло не так...",
+            errorTitle = "Извините,",
+            successMessage = "Спасибо! Мы свяжемся с вами в ближайшее время",
+            thanks = document.getElementById('thanks'),
+            forms = document.querySelectorAll('form'),
+           // bannerForm = document.getElementById('banner-form'),
+            spinners = document.querySelector('.floatingSquare'),
+            statusMessage = document.createElement('div'), 
+            check = document.getElementById('check1'),
+            titleError = document.querySelector('#thnaks h4'),
+            textError = document.querySelector('#thanks p');
+
+
+            const spinner = ()=>{
+                const floatingSquare = document.getElementById('floatingSquare');
+                let div1 = document.createElement('div'),
+                    div2 = document.createElement('div'),
+                    div3 = document.createElement('div'),
+                    div4 = document.createElement('div'),
+                    div5 = document.createElement('div');
+        
+                    div1.className = "barlittle";
+                    div2.className = "barlittle";
+                    div3.className = "barlittle";
+                    div4.className = "barlittle";
+                    div5.className = "barlittle";
+        
+                    div1.setAttribute('id', 'block_1');
+                    div2.setAttribute('id', 'block_2');
+                    div3.setAttribute('id', 'block_3');
+                    div4.setAttribute('id', 'block_4');
+                    div5.setAttribute('id', 'block_5');
+        
+        
+                    floatingSquare.appendChild(div1);
+                    floatingSquare.appendChild(div2);
+                    floatingSquare.appendChild(div3);
+                    floatingSquare.appendChild(div4);
+                    floatingSquare.appendChild(div5);
+        
+            };
+
+        //statusMessage.textContent = 'Тут будет сообщение';
+        statusMessage.style.cssText = 'font-size: 1.5rem; color:white; padding:10px';
+
+
+
+
+        console.log(forms);
+        //bannerForm.appendChild(statusMessage);
+
+
+        const sendFunc = function(e) {
+            e.preventDefault();
+
+            if(!check.checked){
+                document.getElementById('verify_checkbox').style.display = 'block';
+            }
+            if ( check.checked ) {
+
+                document.getElementById('verify_checkbox').style.display = 'none';
+
+                //spinner().style.display = "block";
+                spinner();
+                
+                const formData = new FormData(this);  
+
+                let body = {};
+
+                formData.forEach((val, key) => {
+                    body[key] = val;
+                });
+
+                // c промисами 
+                postData(body)
+                    .then((response) => {
+                        if(response.status !== 200){
+                            throw new Error('status network not 200');
+                        }
+                        console.log(response);
+                        spinners.style.display = "none";
+                        thanks.style.display ="block";
+                        document.getElementById('form1').style.display = "none";
+                        document.getElementById('form2').style.display = "none";
+                        this.reset();
+
+                    })
+                    .catch((error) => {
+                        //spinner.forEach((item)=>{ item.style.display = "none"; });
+                        spinners.style.display = "none";
+                        titleError.textContent = errorTitle;
+                        textError.textContent = errorMessage;
+                        console.error(error);
+                    });
+            }
+
+        };
+
+
+
+
+
+
+
+        const postData = (body) => {
+            return fetch('./server.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body) //formData 
+                });
+            
+        };
+
+        forms.forEach((item) => {
+            item.addEventListener('submit', sendFunc);
+        });
+
+        
+    };
+    sendForm();
+    //export default sendForm;
+
+   
+        
 
 
 
