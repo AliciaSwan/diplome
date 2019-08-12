@@ -1,0 +1,171 @@
+const sendForm = () => {
+    const errorMessage = "Что-то пошло не так...",
+        errorTitle = "Извините,",
+        thanks = document.getElementById('thanks'),
+        forms = document.querySelectorAll('form'),
+        floatingSquare = document.getElementById('floatingSquare'),
+        titleError = document.querySelector('#thanks h4'),
+        textError = document.querySelector('#thanks p');
+
+        const spinner = ()=>{
+            const floatingSquare = document.getElementById('floatingSquare'),
+            form = document.querySelector('form');
+            const divMain = document.createElement('div'),
+                div1 = document.createElement('div'),
+                div2 = document.createElement('div'),
+                div3 = document.createElement('div'),
+                div4 = document.createElement('div'),
+                div5 = document.createElement('div');
+    
+                divMain.className = "floatingSquare";
+                div1.className = "barlittle";
+                div2.className = "barlittle";
+                div3.className = "barlittle";
+                div4.className = "barlittle";
+                div5.className = "barlittle";
+    
+                divMain.setAttribute('id', 'floatingSquare');
+                div1.setAttribute('id', 'block_1');
+                div2.setAttribute('id', 'block_2');
+                div3.setAttribute('id', 'block_3');
+                div4.setAttribute('id', 'block_4');
+                div5.setAttribute('id', 'block_5');
+    
+                form.appendChild(divMain);
+
+                divMain.appendChild(div1);
+                divMain.appendChild(div2);
+                divMain.appendChild(div3);
+                divMain.appendChild(div4);
+                divMain.appendChild(div5);
+        };
+
+       
+
+
+        const sendFunc = function(e) {
+            e.preventDefault();
+                const check = this.querySelector('.personal-data input[type=checkbox]'),
+                spinners = document.querySelector('.floatingSquare'),
+                checkboxMessage = this.querySelector('#verify_checkbox');
+                checkboxMessage.style.display = 'none';
+
+                const statusMessage = document.createElement('div');
+                statusMessage.textContent = 'Загрузка';
+                statusMessage.style.cssText = 'font-size: 1rem; color:yellow; padding:10px';
+        
+                floatingSquare.appendChild(statusMessage);
+                floatingSquare.style.display = "block";
+
+                spinners.style.display = "block";
+                //spinner();
+                const formData = new FormData(this);  
+                let body = {};
+
+                formData.forEach((val, key) => {
+                    body[key] = val;
+                });
+
+                // c промисами 
+                postData(body)
+                    .then((response) => {
+                        if(check.checked){
+                            if(response.status !== 200){
+                                throw new Error('status network not 200');
+                            }
+                            console.log(response);
+                            
+                            spinners.style.display = "none";
+                            thanks.style.display ="block";
+                            document.getElementById('callback_form').style.display = "none";
+                            document.getElementById('free_visit_form').style.display = "none";
+                            this.reset();
+                        }else if(!check.checked){
+                            checkboxMessage.style.display = 'block';
+                            return;
+                        }
+                    })
+                    .catch((error) => {
+                        //checkboxMessage.style.display = 'block';
+                            //spinner.forEach((item)=>{ item.style.display = "none"; });
+                        spinners.style.display = "none";
+                        thanks.style.display ="block";
+                        titleError.textContent = errorTitle;
+                        textError.textContent = errorMessage;
+                        console.error(error);
+                        this.reset();
+                    });
+
+        };
+
+
+        const postData = (body) => {
+            return fetch('./server.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body) //formData 
+                });
+            
+        };
+
+        forms.forEach((item) => {
+            item.addEventListener('submit', sendFunc);
+        });
+
+};
+export default sendForm;
+
+// const sendForm = (()=> {
+//     const errorMessage = 'Что-то пошло не так',
+//     thanks = document.querySelector('#thanks'),
+//     thanksText = document.querySelector('#thanks .form-content p'),
+//     thanksTextH4 = document.querySelector('#thanks .form-content h4'),
+//     form = document.querySelectorAll('form'),
+//     formScript = function(e) {
+//         e.preventDefault();
+//         const formData = new FormData(this),
+//         formCheckbox = this.querySelector('.personal-data input[type=checkbox]'),
+//         label = this.querySelector('.personal-data label');
+//         let body = {};
+//         formData.forEach((val, key) => {body[key] = val;});
+//         postData(body)
+//             .then(request=>{
+//                 if(formCheckbox.checked) {
+//                     if(request.status !== 200) {throw new Error('status is not 200');}
+//                     thanks.style.display = "block";
+//                     const thisForm1 = document.querySelector('#free_visit_form'),
+//                     thisForm2 = document.querySelector('#free_visit_form');
+//                     thisForm1.classList.remove('d-block');
+//                     thisForm2.classList.remove('d-block');
+//                     setTimeout(() => thanks.removeAttribute('style'), 1500);
+//                 } else if (!formCheckbox.checked){
+//                     label.classList.add('naeb');
+//                     return;
+//                 }
+//             })
+//             .catch(() => {
+//                 const label = document.querySelector('.personal-data label');
+//                 label.classList.add('naeb');
+//                 thanksTextH4.textContent = 'Извините!';
+//                 thanksText.textContent = errorMessage;
+//             }) 
+//             .then(()=> {
+//                 this.reset();
+//                 setTimeout(() => label.classList.remove('naeb'), 1500);
+//             });
+//     },
+//     postData = body => {
+//         return fetch('./server.php', {
+//             method: 'POST',
+//             headers: {'Content-Type': 'application/json'},
+//             body: JSON.stringify(body)
+//         });
+//     };
+//     form.forEach(item => {
+//         item.addEventListener('submit', formScript);
+//     });
+
+// })();
+// export default sendForm;

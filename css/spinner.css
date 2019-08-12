@@ -176,9 +176,13 @@
 
 /*-----------------------*/
 .floatingSquare{
-	/*display: none;*/
+	display: none;
+	/* margin-left: 50%;
+	margin-top: -20px; */
 	margin-left: 50%;
-	margin-top: -20px;
+    transform: translate(-50%, -20%);
+    margin-top: 0%;
+    padding: 30px 47px;
 }
 .barlittle {
     background-color: #ffd11a;

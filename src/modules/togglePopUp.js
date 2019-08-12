@@ -5,7 +5,8 @@ const togglePopUp = () => {
         callBackBtn = document.querySelector('.callback-btn'),
         callbackForm = document.getElementById('callback_form'),
         fixedGiftBtn = document.querySelector('.fixed-gift'),
-        giftForm = document.getElementById('gift');
+        giftForm = document.getElementById('gift'),
+        thanks = document.getElementById('thanks');
 
     openPopup.addEventListener('click', () => {
         freeVisitForm.style.display = "block";
@@ -50,7 +51,7 @@ const togglePopUp = () => {
     
     giftForm.addEventListener('click', (event)=>{
         let target = event.target;
-        console.log(target);
+
         if(target.classList.contains('close_icon')){
             giftForm.style.display ='none';
         }else if(target.classList.contains('close-btn')){
@@ -65,6 +66,14 @@ const togglePopUp = () => {
 
     });
 
+    thanks.addEventListener('click', (event) => {
+        let target = event.target;
+
+        if(target.classList.contains('close_icon')||
+        target.classList.contains('close-btn')){
+            thanks.style.display = 'none';
+        }
+    });
 
 };
 

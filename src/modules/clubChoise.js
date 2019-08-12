@@ -1,12 +1,18 @@
 const clubChoise = () => {
 
-    const button = document.querySelector('clubs-list'),
-        ul = document.querySelector('ul');
+    const button = document.querySelector('.clubs-list'),
+        ul = document.querySelector('ul'),
+        p = document.querySelector('p');
 
-    button.addEventListener('click', () => {
-        ul.style.display = "block";
+    button.addEventListener('click', (e) => {
+        const target = e.target;
+        if(ul.style.display == 'block'){
+            ul.style.display = "none";
+        } else {
+            ul.style.display = "block";
+        }
+        
     });
 };
-clubChoise();
 
 export default clubChoise;

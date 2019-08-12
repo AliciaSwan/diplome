@@ -280,8 +280,8 @@ input[type=button] {
     zoom: 1;
 }
 
-html#mozaika,
-html#schelkovo {}
+/* html#mozaika,
+html#schelkovo {} */
 
 html#mozaika .head-slider,
 html#schelkovo .head-slider {
