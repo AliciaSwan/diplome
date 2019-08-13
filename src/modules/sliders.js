@@ -1,17 +1,18 @@
 const sliders = () => {
     //   main-slider
     const slide = document.querySelectorAll('.main-slider .slide'),
-        li = document.querySelectorAll('.dot'),
-        dotButtons = document.querySelector('.slider-dots'),
-        buttons = document.querySelectorAll('.dotButton');
-
+        li = document.querySelectorAll('.main-slider-dots.slider-dots li.dot'),
+        mainDotButtons = document.querySelector('.main-slider-dots'),
+        buttonsMain = document.querySelectorAll('.main-slider-dots .dotButton');
+    console.log(mainDotButtons);
     // gallery-slider
     const slider = document.querySelector('.gallery-slider'),
-        sliderDots = document.querySelector('.gallery-slider-dots'),
         slideGal = document.querySelectorAll('.gallery-slider .slide'),
+        sliderDots = document.querySelector('.gallery-slider-dots'),
+        
         liGal = document.querySelectorAll('.gallery-slider-dots.slider-dots li.dot'),
-        // dotButtons = document.querySelector('.slider-dots'),
-        buttonsGal = document.querySelectorAll('.dotButton');
+        galleryDotButtons = document.querySelector('.gallery-slider-dots'),
+        buttonsGal = document.querySelectorAll('.gallery-slider-dots .dotButton');
 
     let currentSlide = 0,
         interval;
@@ -53,7 +54,7 @@ const sliders = () => {
     };
 
     // dots of main slider
-    dotButtons.addEventListener('click', (event) => {
+    mainDotButtons.addEventListener('click', (event) => {
         event.preventDefault();
 
         let target = event.target;
@@ -65,7 +66,7 @@ const sliders = () => {
         prevSlide(li, currentSlide, 'slick-active');
 
         if(target.matches('button') || target == "button" || target.matches('li .dot')){
-            buttons.forEach((elem, index) => {
+            buttonsMain.forEach((elem, index) => {
                 if(elem === target){
                     currentSlide = index;
                 }
@@ -80,6 +81,36 @@ const sliders = () => {
         }
         nextSlide(slide, currentSlide, 'slider-item-active');
         nextSlide(li, currentSlide, 'slick-active');
+
+    });
+    // dots of gal slider
+    galleryDotButtons.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        let target = event.target;
+
+        if(!target.matches('button')){
+            return;
+        }
+        prevSlide(slide, currentSlide, 'slider-item-active');
+        prevSlide(liGalm, currentSlide, 'slick-active');
+
+        if(target.matches('button') || target == "button" || target.matches('li .dot')){
+            buttonsGal.forEach((elem, index) => {
+                if(elem === target){
+                    currentSlide = index;
+                }
+            });
+        }
+
+        if(currentSlide >= slide.length){
+            currentSlide = 0;
+        }
+        if(currentSlide < 0){
+            currentSlide = slide.length-1;
+        }
+        nextSlide(slide, currentSlide, 'slider-item-active');
+        nextSlide(liGal, currentSlide, 'slick-active');
 
     });
 
@@ -101,15 +132,15 @@ const sliders = () => {
             currentSlide--;
         } 
         
-        if (target.matches('li .dot') || target == "button" || target.matches('dotButton')){
-            buttonsGal.forEach((elem, index) => {
-                console.log(elem);
-                console.log(index);
-                if(elem === target){
-                    currentSlide = index;
-                }
-            });
-        }
+        // if (target.matches('li .dot') || target == "button" || target.matches('dotButton')){
+        //     buttonsGal.forEach((elem, index) => {
+        //         console.log(elem);
+        //         console.log(index);
+        //         if(elem === target){
+        //             currentSlide = index;
+        //         }
+        //     });
+        // }
 
         if(currentSlide >= slide.length){
             currentSlide = 0;

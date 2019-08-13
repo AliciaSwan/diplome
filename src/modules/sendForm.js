@@ -52,20 +52,12 @@ const sendForm = () => {
             e.preventDefault();
                 const check = this.querySelector('.personal-data input[type=checkbox]'),
                 spinners = document.querySelectorAll('.floatingSquare'),
+                spinner = this.querySelector('.floatingSquare'),
                 checkboxMessage = this.querySelector('#verify_checkbox');
                 checkboxMessage.style.display = 'none';
 
-                // const statusMessage = document.createElement('div');
-                // statusMessage.textContent = 'Загрузка';
-                // statusMessage.style.cssText = 'font-size: 1rem; color:yellow; padding:10px';
-        
-                // floatingSquare.appendChild(statusMessage);
-                // floatingSquare.style.display = "block";
-                //spinner();
-                spinners.forEach((item) => {
-                    item.style.display = "block";
-                });
-                
+                spinner.style.display = "block";
+
                 const formData = new FormData(this);  
                 let body = {};
 

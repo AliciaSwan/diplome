@@ -1,7 +1,6 @@
 const addingDots = () => {
 
     const addDots = (element, newDots) =>{
-
         element.forEach(() => {
             let li = document.createElement('li'),
                 dotButton = document.createElement('button');
@@ -16,7 +15,7 @@ const addingDots = () => {
 
     // main-slider
     const slide = document.querySelectorAll('.main-slider .slide'),
-            dots = document.querySelector('.slider-dots');
+            dots = document.querySelector('.main-slider-dots');
 
     addDots(slide, dots);
 

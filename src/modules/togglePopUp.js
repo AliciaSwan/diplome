@@ -1,69 +1,50 @@
 const togglePopUp = () => {
 
-    const openPopup = document.querySelector('.open-popup'),
-        freeVisitForm = document.getElementById('free_visit_form'),
-        callBackBtn = document.querySelector('.callback-btn'),
+    const freeVisitForm = document.getElementById('free_visit_form'),
         callbackForm = document.getElementById('callback_form'),
         fixedGiftBtn = document.querySelector('.fixed-gift'),
         giftForm = document.getElementById('gift'),
         thanks = document.getElementById('thanks');
 
-    openPopup.addEventListener('click', () => {
-        freeVisitForm.style.display = "block";
-    });
-    callBackBtn.addEventListener('click', () => {
-        callbackForm.style.display = "block";
-    });
-    fixedGiftBtn.addEventListener('click', () => {
-        giftForm.style.display = "block";
-        fixedGiftBtn.style.display = "none";
-    });
-
-    freeVisitForm.addEventListener('click', (e) => {
-        let target = e.target;
-
-        if(target.classList.contains('close_icon')) {
-            freeVisitForm.style.display = "none";
-        }else{
-            target = target.closest('.form-content');
-
-            if(!target){
-                freeVisitForm.style.display = 'none';
-            }
+    document.addEventListener('click', (e) => {
+        const target = e.target;
+        // free-visit
+        if(target.matches('.open-popup')){
+            freeVisitForm.style.display = "block";
+            freeVisitForm.addEventListener('click', (e) => {
+                let target = e.target;
+        
+                if(target.classList.contains('close_icon') ||
+                    target.classList.contains('overlay')) {
+                    freeVisitForm.style.display = "none";
+                }
+            });
         }
-    });
-
-    callbackForm.addEventListener('click', (event)=>{
-        let target = event.target;
-
-        if(target.classList.contains('close_icon')){
-            callbackForm.style.display ='none';
-        }else{
-            target = target.closest('.form-content');
-
-            if(!target){
-                callbackForm.style.display = 'none';
-            }
+        //callback-btn
+        if(target.matches('.callback-btn')){
+            callbackForm.style.display = "block";
+            callbackForm.addEventListener('click', (event)=>{
+                let target = event.target;
+        
+                if(target.classList.contains('close_icon') ||
+                target.classList.contains('overlay')){
+                    callbackForm.style.display ='none';
+                }
+            });
         }
-
-    });
-
-    
-    giftForm.addEventListener('click', (event)=>{
-        let target = event.target;
-
-        if(target.classList.contains('close_icon')){
-            giftForm.style.display ='none';
-        }else if(target.classList.contains('close-btn')){
-            giftForm.style.display ='none';
-        }else{
-            target = target.closest('.form-content');
-
-            if(!target){
-                giftForm.style.display = 'none';
-            }
+        // fixed-gift
+        if(target.matches('.fixed-gift img')){
+            giftForm.style.display = "block";
+            fixedGiftBtn.style.display = "none";
+            giftForm.addEventListener('click', (event)=>{
+                let target = event.target;
+                if(target.classList.contains('close_icon') || target.classList.contains('close-btn') || 
+                target.classList.contains('overlay')){
+                    giftForm.style.display ='none';
+                }
+             });
         }
-
+        
     });
 
     thanks.addEventListener('click', (event) => {
