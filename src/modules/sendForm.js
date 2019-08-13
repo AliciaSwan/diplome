@@ -9,7 +9,10 @@ const sendForm = () => {
 
         const spinner = ()=>{
             const floatingSquare = document.getElementById('floatingSquare'),
-            form = document.querySelector('form');
+            floatingSquares = document.querySelectorAll('.floatingSquare'),
+            form = document.querySelector('form'),
+            forms = document.querySelectorAll('form');
+
             const divMain = document.createElement('div'),
                 div1 = document.createElement('div'),
                 div2 = document.createElement('div'),
@@ -30,9 +33,11 @@ const sendForm = () => {
                 div3.setAttribute('id', 'block_3');
                 div4.setAttribute('id', 'block_4');
                 div5.setAttribute('id', 'block_5');
-    
-                form.appendChild(divMain);
 
+                forms.forEach((item) => {
+                    item.appendChild(divMain);
+                });
+    
                 divMain.appendChild(div1);
                 divMain.appendChild(div2);
                 divMain.appendChild(div3);
@@ -46,19 +51,21 @@ const sendForm = () => {
         const sendFunc = function(e) {
             e.preventDefault();
                 const check = this.querySelector('.personal-data input[type=checkbox]'),
-                spinners = document.querySelector('.floatingSquare'),
+                spinners = document.querySelectorAll('.floatingSquare'),
                 checkboxMessage = this.querySelector('#verify_checkbox');
                 checkboxMessage.style.display = 'none';
 
-                const statusMessage = document.createElement('div');
-                statusMessage.textContent = 'Загрузка';
-                statusMessage.style.cssText = 'font-size: 1rem; color:yellow; padding:10px';
+                // const statusMessage = document.createElement('div');
+                // statusMessage.textContent = 'Загрузка';
+                // statusMessage.style.cssText = 'font-size: 1rem; color:yellow; padding:10px';
         
-                floatingSquare.appendChild(statusMessage);
-                floatingSquare.style.display = "block";
-
-                spinners.style.display = "block";
+                // floatingSquare.appendChild(statusMessage);
+                // floatingSquare.style.display = "block";
                 //spinner();
+                spinners.forEach((item) => {
+                    item.style.display = "block";
+                });
+                
                 const formData = new FormData(this);  
                 let body = {};
 
@@ -74,21 +81,25 @@ const sendForm = () => {
                                 throw new Error('status network not 200');
                             }
                             console.log(response);
-                            
-                            spinners.style.display = "none";
+                            spinners.forEach((item) => {
+                                item.style.display = "none";
+                            });
                             thanks.style.display ="block";
                             document.getElementById('callback_form').style.display = "none";
                             document.getElementById('free_visit_form').style.display = "none";
                             this.reset();
+                            document.getElementById('price-total').textContent = 1999 + "₽";
                         }else if(!check.checked){
                             checkboxMessage.style.display = 'block';
+                            spinners.forEach((item) => {
+                                item.style.display = "none";
+                            });
                             return;
                         }
                     })
                     .catch((error) => {
                         //checkboxMessage.style.display = 'block';
-                            //spinner.forEach((item)=>{ item.style.display = "none"; });
-                        spinners.style.display = "none";
+                        spinners.forEach((item)=>{ item.style.display = "none"; });
                         thanks.style.display ="block";
                         titleError.textContent = errorTitle;
                         textError.textContent = errorMessage;
