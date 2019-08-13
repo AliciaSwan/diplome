@@ -1,4 +1,11 @@
 
+    import '@babel/polyfill';
+    import 'nodelist-foreach-polyfill';
+    import elementClosest from 'element-closest';
+    import 'whatwg-fetch';
+
+    elementClosest(window);
+    require ('formdata-polyfill');
     import clubChoise from './modules/clubChoise';
     import togglePopUp from './modules/togglePopUp';
     import sliders from './modules/sliders';

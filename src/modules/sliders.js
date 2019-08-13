@@ -47,74 +47,50 @@ const sliders = () => {
 
     const startSlide = (time = 4000) => {
         interval = setInterval(autoPlaySlide, time);
-
     };
     const stopSlide = () => {
             clearInterval(interval);
     };
 
-    // dots of main slider
-    mainDotButtons.addEventListener('click', (event) => {
-        event.preventDefault();
 
-        let target = event.target;
+    const actionDots = (buttonSelector, sliderButtonSelector) =>{
+        buttonSelector.addEventListener('click', (event) => {
+            event.preventDefault();
 
-        if(!target.matches('button')){
-            return;
-        }
-        prevSlide(slide, currentSlide, 'slider-item-active');
-        prevSlide(li, currentSlide, 'slick-active');
+            let target = event.target;
 
-        if(target.matches('button') || target == "button" || target.matches('li .dot')){
-            buttonsMain.forEach((elem, index) => {
-                if(elem === target){
-                    currentSlide = index;
-                }
-            });
-        }
+            if(!target.matches('button')){
+                return;
+            }
+            prevSlide(slide, currentSlide, 'slider-item-active');
+            prevSlide(liGal, currentSlide, 'slick-active');
 
-        if(currentSlide >= slide.length){
-            currentSlide = 0;
-        }
-        if(currentSlide < 0){
-            currentSlide = slide.length-1;
-        }
-        nextSlide(slide, currentSlide, 'slider-item-active');
-        nextSlide(li, currentSlide, 'slick-active');
+            console.log(target);
+            if(target.matches('button') || target == "button" || target.matches('li .dot')){
+                sliderButtonSelector.forEach((elem, index) => {
+                    if(elem === target){
+                        currentSlide = index;
+                    }
+                });
+            }
 
-    });
-    // dots of gal slider
-    galleryDotButtons.addEventListener('click', (event) => {
-        event.preventDefault();
+            if(currentSlide >= slide.length){
+                currentSlide = 0;
+            }
+            if(currentSlide < 0){
+                currentSlide = slide.length-1;
+            }
+            nextSlide(slide, currentSlide, 'slider-item-active');
+            nextSlide(liGal, currentSlide, 'slick-active');
 
-        let target = event.target;
+        });
+    };
+    actionDots(galleryDotButtons, buttonsGal);
+    actionDots(mainDotButtons, buttonsGal);
 
-        if(!target.matches('button')){
-            return;
-        }
-        prevSlide(slide, currentSlide, 'slider-item-active');
-        prevSlide(liGalm, currentSlide, 'slick-active');
 
-        if(target.matches('button') || target == "button" || target.matches('li .dot')){
-            buttonsGal.forEach((elem, index) => {
-                if(elem === target){
-                    currentSlide = index;
-                }
-            });
-        }
 
-        if(currentSlide >= slide.length){
-            currentSlide = 0;
-        }
-        if(currentSlide < 0){
-            currentSlide = slide.length-1;
-        }
-        nextSlide(slide, currentSlide, 'slider-item-active');
-        nextSlide(liGal, currentSlide, 'slick-active');
-
-    });
-
-    // arrow and dots gallery slider
+    // arrow  gallery slider
     slider.addEventListener('click', (event) => {
         event.preventDefault();
 
@@ -131,16 +107,6 @@ const sliders = () => {
         } else if (target.matches('#arrow-left') || target.matches('.fa-chevron-left')){
             currentSlide--;
         } 
-        
-        // if (target.matches('li .dot') || target == "button" || target.matches('dotButton')){
-        //     buttonsGal.forEach((elem, index) => {
-        //         console.log(elem);
-        //         console.log(index);
-        //         if(elem === target){
-        //             currentSlide = index;
-        //         }
-        //     });
-        // }
 
         if(currentSlide >= slide.length){
             currentSlide = 0;
