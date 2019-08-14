@@ -13,15 +13,6 @@ const calc = () => {
             inputs[i].checked = true;
            }
        }  
-    // for (let i in inputs){
-    //        if (inputs[i].type == "radio" && inputs[i].defaultChecked){
-    //             inputs[i].checked = true;
-    //        }else{
-    //            inputs[i].checked = false;
-
-    //           // this.checked = item.defaultChecked; 
-    //        } 
-    //    } 
 
     console.log(inputs);
         
