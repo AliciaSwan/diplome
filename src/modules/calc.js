@@ -1,7 +1,16 @@
 const calc = () => {
     const total = document.getElementById('price-total'),
-        cardOrder = document.getElementById('card_order');
+        cardOrder = document.getElementById('card_order'),
+        inputs = document.querySelectorAll('#card_order input');
 
+    for (let i in inputs){
+           if (inputs[i].type == "radio"){
+               inputs[i].checked = false;
+           } 
+       } 
+
+    console.log(inputs);
+        
     //получаем данные по умочанию
     const getCheckedRadioValue = (name) => {
 	    const elements = document.getElementsByName(name);	
