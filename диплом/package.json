@@ -1,0 +1,37 @@
+{
+  "name": "diplome",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --watch",
+    "dev": "webpack-dev-server --open --mode=development",
+    "build": "webpack --mode=production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliciaSwan/diplome.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AliciaSwan/diplome/issues"
+  },
+  "homepage": "https://github.com/AliciaSwan/diplome#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "element-closest": "^3.0.1",
+    "formdata-polyfill": "^3.0.19",
+    "nodelist-foreach-polyfill": "^1.2.0",
+    "whatwg-fetch": "^3.0.0"
+  }
+}

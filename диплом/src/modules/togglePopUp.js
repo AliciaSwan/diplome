@@ -21,12 +21,11 @@ const togglePopUp = () => {
             });
         }
         //callback-btn
-        if(target.matches('#callback-form-btn')){
+        if(target.matches('.callback-btn')){
             callbackForm.style.display = "block";
             callbackForm.addEventListener('click', (event)=>{
                 let target = event.target;
         
-                console.log(target);
                 if(target.classList.contains('close_icon') ||
                 target.classList.contains('overlay')){
                     callbackForm.style.display ='none';
@@ -52,8 +51,7 @@ const togglePopUp = () => {
         let target = event.target;
 
         if(target.classList.contains('close_icon')||
-        target.classList.contains('close-btn') ||
-        target.classList.contains('overlay')){
+        target.classList.contains('close-btn')){
             thanks.style.display = 'none';
         }
     });

@@ -14,7 +14,6 @@
     import servicesSlider from './modules/servicesSlider';
     import sendForm from './modules/sendForm';
     import calc from './modules/calc';
-    import gallery from './modules/gallery';
 
 
 
@@ -26,4 +25,4 @@
     formValidator();
     sendForm();
     calc();
-    gallery();
+

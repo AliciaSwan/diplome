@@ -50,24 +50,25 @@ const sendForm = () => {
 
         const sendFunc = function(e) {
             e.preventDefault();
-            const check = this.querySelector('.personal-data input[type=checkbox]'),
-            spinners = document.querySelectorAll('.floatingSquare'),
-            spinner = this.querySelector('.floatingSquare'),
-            checkboxMessage = this.querySelector('#verify_checkbox');
-            checkboxMessage.style.display = 'none';
-           
-            spinner.style.display = "block";
-            const formData = new FormData(this);  
-            let body = {};
+                const check = this.querySelector('.personal-data input[type=checkbox]'),
+                spinners = document.querySelectorAll('.floatingSquare'),
+                spinner = this.querySelector('.floatingSquare'),
+                checkboxMessage = this.querySelector('#verify_checkbox');
+                checkboxMessage.style.display = 'none';
 
-            formData.forEach((val, key) => {
-                body[key] = val;
-            });
-            if(check.checked){
+                spinner.style.display = "block";
+
+                const formData = new FormData(this);  
+                let body = {};
+
+                formData.forEach((val, key) => {
+                    body[key] = val;
+                });
+
                 // c промисами 
                 postData(body)
                     .then((response) => {
-                        
+                        if(check.checked){
                             if(response.status !== 200){
                                 throw new Error('status network not 200');
                             }
@@ -80,7 +81,13 @@ const sendForm = () => {
                             document.getElementById('free_visit_form').style.display = "none";
                             this.reset();
                             document.getElementById('price-total').textContent = 1999 + "₽";
-
+                        }else if(!check.checked){
+                            checkboxMessage.style.display = 'block';
+                            spinners.forEach((item) => {
+                                item.style.display = "none";
+                            });
+                            return;
+                        }
                     })
                     .catch((error) => {
                         //checkboxMessage.style.display = 'block';
@@ -90,17 +97,10 @@ const sendForm = () => {
                         textError.textContent = errorMessage;
                         console.error(error);
                         this.reset();
-                    }); 
+                    });
 
-            }else if (!check.checked){
-                checkboxMessage.style.display = 'block';
-                spinners.forEach((item) => {
-                    item.style.display = "none";
-                });
-                return false;
-            }
-                      
         };
+
 
         const postData = (body) => {
             return fetch('./server.php', {
@@ -112,7 +112,7 @@ const sendForm = () => {
                 });
             
         };
-       
+
         forms.forEach((item) => {
             item.addEventListener('submit', sendFunc);
         });
