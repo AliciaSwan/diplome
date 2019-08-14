@@ -3,11 +3,25 @@ const calc = () => {
         cardOrder = document.getElementById('card_order'),
         inputs = document.querySelectorAll('#card_order input');
 
-    for (let i in inputs){
+
+        // снимает все флажки
+           for (let i in inputs){
            if (inputs[i].type == "radio"){
                inputs[i].checked = false;
            } 
-       } 
+           if (inputs[i].defaultChecked){
+            inputs[i].checked = true;
+           }
+       }  
+    // for (let i in inputs){
+    //        if (inputs[i].type == "radio" && inputs[i].defaultChecked){
+    //             inputs[i].checked = true;
+    //        }else{
+    //            inputs[i].checked = false;
+
+    //           // this.checked = item.defaultChecked; 
+    //        } 
+    //    } 
 
     console.log(inputs);
         
